@@ -1,0 +1,16 @@
+dependencies {
+    implementation project(path: ':main-service-api')
+    implementation dep.springWeb
+    implementation dep.utils
+    implementation dep.springFeignClient
+//    implementation dep.springOpenFeignCore
+//    implementation dep.springDataCommons
+
+//    testImplementation platform('org.junit:junit-bom:5.9.1')
+//    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+
+tasks.bootJar {
+    enabled(true)
+}

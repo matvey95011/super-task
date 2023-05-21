@@ -1,0 +1,5 @@
+server:
+  port: 8080
+
+feign-clients:
+  main-service: http://localhost:9999
