@@ -1,0 +1,6 @@
+rootProject.name = 'super-task'
+include 'main-service-api'
+include 'main-service-app'
+include 'transaction-service'
+include 'testFeignClient2'
+
