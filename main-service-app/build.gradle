@@ -1,0 +1,9 @@
+dependencies {
+    implementation dep.springWeb
+    implementation dep.utils
+//    implementation dep.springOpenFeignCore
+}
+
+tasks.bootJar {
+    enabled(true)
+}
