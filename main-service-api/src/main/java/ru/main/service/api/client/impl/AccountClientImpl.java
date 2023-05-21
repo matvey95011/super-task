@@ -63,6 +63,4 @@ public class AccountClientImpl implements AccountClient {
                 .status()
                 .body();
     }
-
-
 }
