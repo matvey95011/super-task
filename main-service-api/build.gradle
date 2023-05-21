@@ -1,0 +1,58 @@
+apply plugin: "org.openapi.generator"
+
+dependencies {
+    implementation dep.swagger
+    implementation dep.springWeb
+    implementation dep.utils
+    implementation dep.springDataCommons
+    implementation dep.springOpenFeignCore
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("$buildDir/generated/src/main/java")
+        }
+    }
+}
+
+tasks.build {
+    dependsOn('clean', 'openApiGenerate')
+}
+
+tasks.bootJar {
+    enabled(false)
+}
+
+openApiGenerate {
+    inputSpec = "$rootDir/main-service-api/src/main/resources/static/api-docs.yml".toString()
+    generatorName = "spring"
+    outputDir = "$buildDir/generated".toString()
+    apiPackage = "ru.main.service.api"
+    modelPackage = "ru.main.service.model"
+    generateApiTests = false
+    generateModelTests = false
+    typeMappings = [
+            "OffsetDateTime": "Instant"
+    ]
+    importMappings = [
+            "java.time.OffsetDateTime": "java.time.Instant"
+    ]
+    configOptions = [
+            sourceFolder           : "src/main/java/",
+            useTags                : "true",
+            java8                  : "false",
+            dateLibrary            : "java8",
+            hideGenerationTimestamp: "true",
+            serializableModel      : "true",
+            booleanGetterPrefix    : "is",
+            openApiNullable        : "true",
+            skipDefaultInterface   : "true",
+            interfaceOnly          : "true",
+            generateSupportingFiles: "false",
+            delegatePattern        : "false",
+            useBeanValidation      : "true",
+            serializableModel      : "true",
+            localVarPrefix         : "localVar"
+    ]
+}

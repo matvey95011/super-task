@@ -1,0 +1,744 @@
+openapi: 3.0.1
+info:
+  title: Rest API Application
+  description: Demo project
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: local
+
+paths:
+  /api/v1/account:
+    get:
+      tags:
+        - Account
+      operationId: findAllAccount
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/FilterRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PageAccountResponse'
+    post:
+      tags:
+        - Account
+      summary: Create Account
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+      responses:
+        201:
+          description: CREATED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+
+  /api/v1/account/{id}:
+    get:
+      tags:
+        - Account
+      operationId: findAccountById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+    post:
+      tags:
+        - Account
+      operationId: updateAccount
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        201:
+          description: CREATED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+    delete:
+      tags:
+        - Account
+      operationId: deleteAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+
+
+  /api/v1/user:
+    get:
+      tags:
+        - User
+      operationId: findAllUser
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/FilterRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PageUserResponse'
+    post:
+      tags:
+        - User
+      summary: Create or Update User
+      operationId: addUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        201:
+          description: CREATED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+
+  /api/v1/user/{id}:
+    get:
+      tags:
+        - User
+      operationId: findUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+    delete:
+      tags:
+        - User
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+
+  /api/v1/transaction:
+    get:
+      tags:
+        - Transaction
+      operationId: findAllTransaction
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/TransactionFilterRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PageTransactionResponse'
+    post:
+      tags:
+        - Transaction
+      summary: Create Transaction
+      operationId: addTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        201:
+          description: CREATED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TransactionShortResponse'
+  /api/v1/transaction/{id}:
+    get:
+      tags:
+        - Transaction
+      operationId: findTransactionById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TransactionShortResponse'
+  /api/v1/transaction/{id}/admin:
+    get:
+      tags:
+        - Transaction
+      operationId: findTransactionByIdForAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+
+
+components:
+  schemas:
+    FilterRequest:
+      allOf:
+        - $ref: "#/components/schemas/BaseFilter"
+        - type: object
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        userIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        login:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+          format: int32
+        balanceMin:
+          type: number
+        balanceMax:
+          type: number
+        createDateFrom:
+          type: string
+          format: date
+        createDateTo:
+          type: string
+          format: date
+        statuses:
+          type: array
+          items:
+            type: string
+
+    PageAccountResponse:
+      allOf:
+        - $ref: "#/components/schemas/BasePage"
+        - type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponse'
+
+    PageUserResponse:
+      allOf:
+        - $ref: "#/components/schemas/BasePage"
+        - type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+
+    CreateAccountRequest:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        userId:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+
+    UpdateAccountRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+
+    UserRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        snils:
+          type: string
+        inn:
+          type: string
+        passport:
+          $ref: '#/components/schemas/PassportRequest'
+        address:
+          $ref: '#/components/schemas/AddressRequest'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactRequest'
+        dateOfBirth:
+          type: string
+          format: date
+        alive:
+          type: boolean
+        gender:
+          $ref: '#/components/schemas/Gender'
+
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        user:
+          $ref: '#/components/schemas/UserResponse'
+        login:
+          type: string
+        balance:
+          type: number
+        status:
+          $ref: '#/components/schemas/Status'
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        account:
+          $ref: '#/components/schemas/AccountResponse'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        snils:
+          type: string
+        inn:
+          type: string
+        passport:
+          $ref: '#/components/schemas/PassportResponse'
+        address:
+          $ref: '#/components/schemas/AddressResponse'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactResponse'
+        dateOfBirth:
+          type: string
+          format: date
+        alive:
+          type: boolean
+        gender:
+          $ref: '#/components/schemas/Gender'
+
+    PassportRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        seria:
+          type: string
+        number:
+          type: string
+        departmentName:
+          type: string
+        departmentNumber:
+          type: string
+        address:
+          $ref: '#/components/schemas/AddressRequest'
+
+    PassportResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        seria:
+          type: string
+        number:
+          type: string
+        departmentName:
+          type: string
+        departmentNumber:
+          type: string
+        addressId:
+          type: string
+          format: uuid
+        address:
+          $ref: '#/components/schemas/AddressResponse'
+
+    AddressRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        country:
+          type: string
+        city:
+          type: string
+        street:
+          type: string
+        apartment:
+          type: string
+
+    AddressResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        country:
+          type: string
+        city:
+          type: string
+        street:
+          type: string
+        apartment:
+          type: string
+
+    ContactRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        phone:
+          type: string
+        messengers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessengerRequest'
+
+    ContactResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        phone:
+          type: string
+        messengers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessengerResponse'
+
+    MessengerRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        link:
+          type: string
+
+    MessengerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        link:
+          type: string
+
+    TransactionFilterRequest:
+      type: object
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        userIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        balanceMin:
+          type: number
+        balanceMax:
+          type: number
+        dateFrom:
+          type: string
+          format: date-time
+        dateTo:
+          type: string
+          format: date-time
+        statuses:
+          type: array
+          items:
+            type: string
+        operationTypes:
+          type: array
+          items:
+            type: string
+
+    PageTransactionResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseFilter"
+        - type: object
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountFrom:
+          $ref: "#/components/schemas/AccountResponse"
+        accountTo:
+          $ref: "#/components/schemas/AccountResponse"
+        dateTransaction:
+          type: string
+          format: date-time
+        operationType:
+          type: string
+        sum:
+          type: number
+        description:
+          type: string
+        statusTransaction:
+          type: string
+
+    TransactionRequest:
+      type: object
+      properties:
+        accountIdFrom:
+          type: string
+          format: uuid
+        accountIdTo:
+          type: string
+          format: uuid
+        operationType:
+          $ref: "#/components/schemas/OperationType"
+        sum:
+          type: number
+        description:
+          type: string
+
+    TransactionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountFrom:
+          $ref: "#/components/schemas/AccountResponse"
+        accountTo:
+          $ref: "#/components/schemas/AccountResponse"
+        dateTransaction:
+          type: string
+          format: date-time
+        operationType:
+          type: string
+        sum:
+          type: number
+        description:
+          type: string
+        status:
+          type: string
+
+    TransactionShortResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dateTransaction:
+          type: string
+          format: date-time
+        operationType:
+          type: string
+        sum:
+          type: number
+        description:
+          type: string
+        status:
+          type: string
+
+    OperationType:
+      type: string
+      enum:
+        - INCOME
+        - OUTCOME
+        - CREDIT-INCOME
+        - CREDIT-OUTCOME
+        - TRANSFER
+
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
+
+    Status:
+      type: string
+      enum:
+        - ACTIVE
+        - BLOCK
+        - DELETE
+        - CHECKING
+
+        #   <------------- Base DTO ------------->
+    BaseFilter:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+          default: 10
+        pageNumber:
+          type: integer
+          default: 0
+        sort:
+          type: array
+          items:
+            type: string
+    BasePage:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    Pageable:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/Sort'
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
