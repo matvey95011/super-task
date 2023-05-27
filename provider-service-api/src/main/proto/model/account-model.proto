@@ -1,0 +1,254 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+
+package ru.provider.service.model;
+
+option java_multiple_files = true;
+option java_package = "ru.provider.service.model";
+
+import "google/protobuf/timestamp.proto";
+
+message AccountRequest {
+  string id = 1;
+
+
+}
+
+message AccountResponse {
+  string id = 1;
+  string userId = 2;
+  UserResponse user = 3;
+  string login = 4;
+  string balance = 5;
+  Status status = 6;
+}
+
+message AddressRequest {
+  string id = 1;
+  string country = 2;
+  string city = 3;
+  string street = 4;
+  string apartment = 5;
+}
+
+message AddressResponse {
+  string id = 1;
+  string country = 2;
+  string city = 3;
+  string street = 4;
+  string apartment = 5;
+}
+
+message BaseFilter {
+  int32 pageSize = 1;
+  int32 pageNumber = 2;
+  repeated string sort = 3;
+}
+
+message BasePage {
+  int64 totalElement = 1;
+  int32 totalPages = 2;
+  int32 size = 3;
+  int32 number = 4;
+  Sort sort = 5;
+  bool first = 6;
+  Pageable pageable = 7;
+  int32 numberOfElements = 8;
+  bool last = 9;
+  bool empty = 10;
+}
+
+message ContactRequest {
+  string id = 1;
+  string email = 2;
+  string phone = 3;
+  repeated MessengerRequest messengers = 4;
+}
+
+message ContactResponse {
+  string id = 1;
+  string email = 2;
+  string phone = 3;
+  repeated MessengerResponse messengers = 4;
+}
+
+message CreateAccountRequest {
+  string login = 1;
+  string password = 2;
+  string userId = 3;
+  string firstName = 4;
+  string lastName = 5;
+  string middleName = 6;
+}
+
+message FilterRequest {
+  repeated string accountIds = 1;
+  repeated string userIds = 2;
+  string login = 3;
+  string email = 4;
+  int32 age = 5;
+  string balanceMin = 6;
+  string balanceMax = 7;
+  google.protobuf.Timestamp createDateFrom = 8;
+  google.protobuf.Timestamp createDateTo = 9;
+  repeated string statuses = 10;
+  int32 pageSize = 11;
+  int32 pageNumber = 12;
+  repeated string sort = 13;
+}
+
+message MessengerRequest {
+  string id = 1;
+  string name = 2;
+  string link = 3;
+}
+
+message MessengerResponse {
+  string id = 1;
+  string name = 2;
+  string link = 3;
+}
+
+message Pageable {
+  int64 offset = 1;
+  Sort sort = 2;
+  int32 pageNumber = 3;
+  int32 pageSize = 4;
+  bool paged = 5;
+  bool unpaged = 6;
+}
+
+message PageAccountResponse {
+  int64 totalElement = 1;
+  int32 totalPages = 2;
+  int32 size = 3;
+  int32 number = 4;
+  Sort sort = 5;
+  bool first = 6;
+  Pageable pageable = 7;
+  int32 numberOfElements = 8;
+  bool last = 9;
+  bool empty = 10;
+  repeated AccountResponse content = 11;
+}
+
+message PageTransactionResponse {
+  int64 totalElement = 1;
+  int32 totalPages = 2;
+  int32 size = 3;
+  int32 number = 4;
+  Sort sort = 5;
+  bool first = 6;
+  Pageable pageable = 7;
+  int32 numberOfElements = 8;
+  bool last = 9;
+  bool empty = 10;
+  repeated TransactionResponse content = 11;
+}
+
+message PageUserResponse {
+  int64 totalElement = 1;
+  int32 totalPages = 2;
+  int32 size = 3;
+  int32 number = 4;
+  Sort sort = 5;
+  bool first = 6;
+  Pageable pageable = 7;
+  int32 numberOfElements = 8;
+  bool last = 9;
+  bool empty = 10;
+  repeated UserResponse content = 11;
+}
+
+message PassportRequest {
+  string id = 1;
+  string seria = 2;
+  string number = 3;
+  string departmentName = 4;
+  string departmentNumber = 5;
+  AddressRequest address = 6;
+}
+
+message PassportResponse {
+  string id = 1;
+  string seria = 2;
+  string number = 3;
+  string departmentName = 4;
+  string departmentNumber = 5;
+  string addressId = 6;
+  AddressResponse address = 7;
+}
+
+message Sort {
+  bool sorted = 1;
+  bool unsorted = 2;
+  bool empty = 3;
+}
+
+message TransactionFilterRequest {
+  repeated string accountIds = 1;
+  repeated string userIds = 2;
+  string balanceMin = 3;
+  string balanceMax = 4;
+  google.protobuf.Timestamp dateFrom = 5;
+  google.protobuf.Timestamp dateTo = 6;
+  repeated string statuses = 7;
+  repeated string operationTypes = 8;
+}
+
+message TransactionRequest {
+  string accountIdFrom = 1;
+  string accountIdTo = 2;
+  OperationType operationType = 3;
+  string sum = 4;
+  string description = 5;
+}
+
+enum Status {
+    ACTIVE = 0;
+    BLOCK = 1;
+    DELETE = 2;
+    CHECKING = 3;
+}
+
+enum Gender {
+  MALE = 0;
+  FEMALE = 1;
+}
+
+enum OperationType {
+  INCOME = 0;
+  OUTCOME = 1;
+  CREDIT_INCOME = 2;
+  CREDIT_OUTCOME = 3;
+  TRANSFER = 4;
+}
+
+// filter
+//    accountIds List<UUID> in
+//    userIds List<UUID> in
+//    login String like
+//    email String like
+//    age Integer equals
+//    balanceMin BigDecimal greater
+//    balanceMax BigDecimal less
+//    createDateFrom LocalDate greater
+//    createDateTo LocalDate less
+//    statuses List<String> in
+
+
+// entity
+//    id UUID
+//    user User
+//    login String
+//    password String
+//    balance BigDecimal
+//    credits List<Credit>
+//    createdAt LocalDateTime
+//    updatedAt LocalDateTime
+//    deletedAt LocalDateTime
+//    status AccountStatus
+
+
+
+

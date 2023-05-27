@@ -1,0 +1,29 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+
+package ru.provider.service.model;
+
+option java_multiple_files = true;
+option java_package = "ru.provider.service.model";
+
+message Filter {
+  UUIDList accountIds = 1;
+  UUIDList userIds = 2;
+  string login = 3;
+  string email = 4;
+  int32 age = 5;
+
+
+}
+
+message PageAccountResponse {
+
+}
+
+message PageUserResponse {
+
+}
+
+message UUIDList {
+  repeated string value = 1;
+}

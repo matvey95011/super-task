@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ru.provider.service.api;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/type.proto";
+import "model/account-model.proto";
+//import "request.proto";
+
+option java_multiple_files = true;
+option java_package = "ru.provider.service.api";
+option java_outer_classname = "AccountApi";
+
+service AccountService {
+//  rpc findAll(model.Filter) returns
+
+//  rpc findAll (google.protobuf.Empty) returns (ProfileResponseList);
+//  rpc findById (google.protobuf.Int64Value) returns (ProfileResponse);
+//  rpc create (ProfileRequest) returns (ProfileResponse);
+//  rpc delete (google.protobuf.Int64Value) returns (google.protobuf.Empty);
+}
