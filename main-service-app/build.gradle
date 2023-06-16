@@ -1,7 +1,7 @@
 dependencies {
+    implementation project(path: ':main-service-api')
     implementation dep.springWeb
     implementation dep.utils
-//    implementation dep.springOpenFeignCore
 }
 
 tasks.bootJar {

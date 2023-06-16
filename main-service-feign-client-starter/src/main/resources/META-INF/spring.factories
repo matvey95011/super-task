@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration = \
+  ru.main.service.api.MainServiceFeignClientAutoConfiguration

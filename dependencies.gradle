@@ -44,7 +44,10 @@ ext {
             modelMapper        : "org.modelmapper:modelmapper:$modelMapperVerion",
             springDataCommons  : "org.springframework.data:spring-data-commons",
             springOpenFeignCore: "org.springframework.cloud:spring-cloud-openfeign-core:$springCloudOpenfeignCoreVersion",
-            springFeignClient  : "org.springframework.cloud:spring-cloud-starter-openfeign:$springCloudOpenfeignStarterVersion"
-
+            springFeignClient  : "org.springframework.cloud:spring-cloud-starter-openfeign:$springCloudOpenfeignStarterVersion",
+            protobuf : [
+                    "com.google.protobuf:protoc:3.17.2",
+                    "io.grpc:protoc-gen-grpc-java:1.40.0"
+            ]
     ]
 }

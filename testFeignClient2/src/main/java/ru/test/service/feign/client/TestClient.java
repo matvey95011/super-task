@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.main.service.api.client.AccountClient;
 import ru.main.service.api.feign.AccountFeignClient;
+import ru.main.service.model.AccountResponse;
+import ru.main.service.model.CreateAccountRequest;
 
 @Slf4j
 @Service
@@ -12,8 +14,12 @@ import ru.main.service.api.feign.AccountFeignClient;
 public class TestClient {
 
     private final AccountClient accountClient;
-    private final AccountFeignClient client;
-    private final TestFeignClient testFeignClient;
+//    private final AccountFeignClient client;
+//    private final TestFeignClient testFeignClient;
+
+    public void test() {
+        AccountResponse accountResponse = accountClient.create(new CreateAccountRequest());
+    }
 
 
 }

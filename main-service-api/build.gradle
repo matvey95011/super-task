@@ -5,7 +5,7 @@ dependencies {
     implementation dep.springWeb
     implementation dep.utils
     implementation dep.springDataCommons
-    implementation dep.springOpenFeignCore
+//    implementation dep.springOpenFeignCore
 }
 
 sourceSets {
